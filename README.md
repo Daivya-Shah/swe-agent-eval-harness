@@ -1,10 +1,12 @@
 # Agent Eval Harness (Mechanize)
 
-Built as a demo project for [Mechanize](https://www.mechanize.work/) because I really love what y’all are building!
+Built as a demo project for [Mechanize](https://www.mechanize.work/) because I really love what y’all are building.
 
-This is a small eval harness for coding agents, built around **IssueFlow**, a full-stack issue tracker (FastAPI + SQLite, React on the front) that acts as the real codebase agents edit. The tasks are scoped to normal backend, frontend, and integration work, not one-off puzzle files.
+I wanted to make something that gets close to the kind of work your team seems to care about. Not just building another AI app, but designing a real software environment where coding agents can be tested, graded, and understood.
 
-I put this together to walk through the full loop: task prompt, target codebase, visible tests, hidden-style tests, deterministic grading, and failure analysis. The part I care about most is the gap agents often hit: they pass the shallow, visible tests and still miss deeper invariants (state machines, time boundaries, cache consistency, idempotency, that kind of thing).
+This project is a small eval harness built around **IssueFlow**, a full-stack issue tracker with a FastAPI + SQLite backend and a React frontend. IssueFlow acts as the real codebase an agent would edit. The tasks are normal software engineering tasks: backend state transitions, SLA logic, frontend cache behavior, and webhook normalization. They are meant to feel like real engineering problems instead of isolated puzzle files.
+
+The main thing I wanted to explore is the gap between “the agent passed the visible tests” and “the agent actually solved the engineering problem.” A patch can pass the shallow checks while still missing deeper invariants like state-machine rules, time boundaries, React Query cache consistency, or idempotency. This repo tries to make that gap visible through task prompts, visible tests, hidden-style tests, deterministic grading, JSON/Markdown reports, and failure analysis.
 
 ## What this demonstrates
 
