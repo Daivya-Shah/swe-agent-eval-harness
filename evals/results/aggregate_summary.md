@@ -1,10 +1,10 @@
 # IssueFlow Eval Aggregate Summary
 
 - **Run type:** `golden_reference`
-- **Run timestamp:** 2026-05-31T21:09:00.790427+00:00
+- **Run timestamp:** 2026-05-31T22:53:24.951443+00:00
 - **Tasks run:** 4
 - **Average overall score:** **1.00**
-- **Total runtime:** 23.1s
+- **Total runtime:** 18.6s
 
 ## Per-task results
 

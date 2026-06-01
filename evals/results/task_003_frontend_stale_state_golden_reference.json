@@ -3,28 +3,28 @@
   "task_title": "Frontend Cache Consistency After Mutations",
   "difficulty": "hard",
   "run_type": "golden_reference",
-  "run_timestamp": "2026-05-31T21:08:56.941228+00:00",
+  "run_timestamp": "2026-05-31T22:53:21.379510+00:00",
   "overall_score": 1.0,
   "visible": {
-    "command": "cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003.config.ts ../../evals/tasks/task_003_frontend_stale_state/visible_tests",
+    "command": "cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003-visible.config.ts",
     "passed": true,
     "score": 1.0,
     "passed_count": 2,
     "failed_count": 0,
     "total_count": 2,
     "timed_out": false,
-    "stdout_excerpt": "Duration  3.14s (transform 169ms, setup 292ms, collect 658ms, tests 517ms, environment 1.05s, prepare 273ms)",
+    "stdout_excerpt": "Duration  2.86s (transform 123ms, setup 232ms, collect 439ms, tests 610ms, environment 742ms, prepare 548ms)",
     "stderr_excerpt": ""
   },
   "hidden": {
-    "command": "cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003.config.ts ../../evals/tasks/task_003_frontend_stale_state/hidden_tests",
+    "command": "cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003-hidden.config.ts",
     "passed": true,
     "score": 1.0,
     "passed_count": 5,
     "failed_count": 0,
     "total_count": 5,
     "timed_out": false,
-    "stdout_excerpt": "Duration  1.96s (transform 85ms, setup 253ms, collect 233ms, tests 37ms, environment 825ms, prepare 142ms)",
+    "stdout_excerpt": "Duration  2.22s (transform 71ms, setup 235ms, collect 226ms, tests 40ms, environment 756ms, prepare 93ms)",
     "stderr_excerpt": ""
   },
   "scoring_breakdown": {

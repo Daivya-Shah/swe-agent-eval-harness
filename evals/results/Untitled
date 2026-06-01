@@ -1,0 +1,1 @@
+python scripts/run_all_evals.py --output-dir=evals/results

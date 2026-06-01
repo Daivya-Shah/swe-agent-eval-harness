@@ -3,7 +3,7 @@
 - **Task ID:** `task_003_frontend_stale_state`
 - **Difficulty:** hard
 - **Run type:** `golden_reference`
-- **Run timestamp:** 2026-05-31T21:08:56.941228+00:00
+- **Run timestamp:** 2026-05-31T22:53:21.379510+00:00
 - **Overall score:** **1.00**
 
 ## Scoring breakdown (weighted contributions)
@@ -21,24 +21,24 @@
 
 ### Visible — PASS (2/2 tests)
 
-- **Command:** `cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003.config.ts ../../evals/tasks/task_003_frontend_stale_state/visible_tests`
+- **Command:** `cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003-visible.config.ts`
 - **Suite score:** 1.00
 - **Timed out:** False
 
 **Stdout excerpt**
 ```
-Duration  3.14s (transform 169ms, setup 292ms, collect 658ms, tests 517ms, environment 1.05s, prepare 273ms)
+Duration  2.86s (transform 123ms, setup 232ms, collect 439ms, tests 610ms, environment 742ms, prepare 548ms)
 ```
 
 ### Hidden-style — PASS (5/5 tests)
 
-- **Command:** `cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003.config.ts ../../evals/tasks/task_003_frontend_stale_state/hidden_tests`
+- **Command:** `cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003-hidden.config.ts`
 - **Suite score:** 1.00
 - **Timed out:** False
 
 **Stdout excerpt**
 ```
-Duration  1.96s (transform 85ms, setup 253ms, collect 233ms, tests 37ms, environment 825ms, prepare 142ms)
+Duration  2.22s (transform 71ms, setup 235ms, collect 226ms, tests 40ms, environment 756ms, prepare 93ms)
 ```
 
 ## Grader notes

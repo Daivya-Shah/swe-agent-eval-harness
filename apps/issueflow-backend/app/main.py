@@ -21,7 +21,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="IssueFlow API",
-    description="Issue tracking backend for SWE agent evaluation",
+    description="Issue tracking backend for agent evaluation",
     version="0.1.0",
     lifespan=lifespan,
 )

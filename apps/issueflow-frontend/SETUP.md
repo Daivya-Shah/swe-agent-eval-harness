@@ -27,7 +27,7 @@ npm run dev
 
 Open http://localhost:5173 (Vite proxies `/api` to the backend).
 
-Tip: use a simple repo path (e.g. `C:\dev\swe-agent-eval-harness`) for reliable Vitest/Playwright runs on Windows.
+Tip: use a simple repo path (e.g. `C:\dev\agent-eval-harness`) for reliable Vitest/Playwright runs on Windows.
 
 ## Tests
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# IssueFlow / SWE-Agent Eval Harness — macOS/Linux setup
+# IssueFlow / Agent Eval Harness — macOS/Linux setup
 # Run from repo root: ./scripts/setup.sh
 
 set -euo pipefail
@@ -7,7 +7,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
-echo "SWE-Agent Eval Harness setup"
+echo "Agent Eval Harness setup"
 echo "Repo root: $REPO_ROOT"
 
 # Python venv

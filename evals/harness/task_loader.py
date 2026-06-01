@@ -89,7 +89,7 @@ def run_task_grading(
     ).lower():
         environment_notes.append(
             "Repo path contains an apostrophe; Vite/Vitest may fail to load frontend tests. "
-            "Use a clean path such as C:\\dev\\swe-agent-eval-harness for task_003."
+            "Use a clean path such as C:\\dev\\agent-eval-harness for task_003."
         )
 
     if run_setup and task.setup_command:

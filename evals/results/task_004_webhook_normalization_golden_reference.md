@@ -3,7 +3,7 @@
 - **Task ID:** `task_004_webhook_normalization`
 - **Difficulty:** hard
 - **Run type:** `golden_reference`
-- **Run timestamp:** 2026-05-31T21:09:00.789452+00:00
+- **Run timestamp:** 2026-05-31T22:53:24.950443+00:00
 - **Overall score:** **1.00**
 
 ## Scoring breakdown (weighted contributions)
@@ -21,24 +21,24 @@
 
 ### Visible — PASS (3/3 tests)
 
-- **Command:** `pytest evals/tasks/task_004_webhook_normalization/visible_tests -q -c evals/pytest.ini --rootdir=evals`
+- **Command:** `C:\Users\Daivy\Downloads\Projects\agent-eval-harness\.venv\Scripts\python.exe -m pytest evals/tasks/task_004_webhook_normalization/visible_tests -q -c evals/pytest.ini --rootdir=evals`
 - **Suite score:** 1.00
 - **Timed out:** False
 
 **Stdout excerpt**
 ```
-3 passed, 1 warning in 0.10s
+3 passed, 1 warning in 0.09s
 ```
 
 ### Hidden-style — PASS (10/10 tests)
 
-- **Command:** `pytest evals/tasks/task_004_webhook_normalization/hidden_tests -q -c evals/pytest.ini --rootdir=evals`
+- **Command:** `C:\Users\Daivy\Downloads\Projects\agent-eval-harness\.venv\Scripts\python.exe -m pytest evals/tasks/task_004_webhook_normalization/hidden_tests -q -c evals/pytest.ini --rootdir=evals`
 - **Suite score:** 1.00
 - **Timed out:** False
 
 **Stdout excerpt**
 ```
-10 passed, 1 warning in 0.20s
+10 passed, 1 warning in 0.19s
 ```
 
 ## Grader notes

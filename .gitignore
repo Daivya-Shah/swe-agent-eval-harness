@@ -35,6 +35,9 @@ apps/issueflow-backend/issueflow.db
 .env.*
 !.env.example
 
+# Internal handoff (not for public repo)
+PROJECT_OVERVIEW_FOR_CHATGPT.md
+
 # OS / editor
 .DS_Store
 Thumbs.db

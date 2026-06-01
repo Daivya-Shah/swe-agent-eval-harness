@@ -3,7 +3,7 @@
 - **Task ID:** `task_001_backend_state_transition`
 - **Difficulty:** medium
 - **Run type:** `golden_reference`
-- **Run timestamp:** 2026-05-31T21:08:44.816893+00:00
+- **Run timestamp:** 2026-05-31T22:53:10.262165+00:00
 - **Overall score:** **1.00**
 
 ## Scoring breakdown (weighted contributions)
@@ -21,24 +21,24 @@
 
 ### Visible — PASS (4/4 tests)
 
-- **Command:** `pytest evals/tasks/task_001_backend_state_transition/visible_tests -q -c evals/pytest.ini --rootdir=evals`
+- **Command:** `C:\Users\Daivy\Downloads\Projects\agent-eval-harness\.venv\Scripts\python.exe -m pytest evals/tasks/task_001_backend_state_transition/visible_tests -q -c evals/pytest.ini --rootdir=evals`
 - **Suite score:** 1.00
 - **Timed out:** False
 
 **Stdout excerpt**
 ```
-4 passed, 1 warning in 0.33s
+4 passed, 1 warning in 0.15s
 ```
 
 ### Hidden-style — PASS (7/7 tests)
 
-- **Command:** `pytest evals/tasks/task_001_backend_state_transition/hidden_tests -q -c evals/pytest.ini --rootdir=evals`
+- **Command:** `C:\Users\Daivy\Downloads\Projects\agent-eval-harness\.venv\Scripts\python.exe -m pytest evals/tasks/task_001_backend_state_transition/hidden_tests -q -c evals/pytest.ini --rootdir=evals`
 - **Suite score:** 1.00
 - **Timed out:** False
 
 **Stdout excerpt**
 ```
-7 passed, 1 warning in 0.44s
+7 passed, 1 warning in 0.34s
 ```
 
 ## Grader notes

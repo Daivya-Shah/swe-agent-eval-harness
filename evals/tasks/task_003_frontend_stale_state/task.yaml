@@ -12,8 +12,8 @@ target_files:
   - apps/issueflow-frontend/src/components/IssueList.tsx
   - apps/issueflow-frontend/src/pages/DashboardPage.tsx
 setup_command: cd apps/issueflow-frontend && npm install
-visible_test_command: cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003.config.ts ../../evals/tasks/task_003_frontend_stale_state/visible_tests
-hidden_test_command: cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003.config.ts ../../evals/tasks/task_003_frontend_stale_state/hidden_tests
+visible_test_command: cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003-visible.config.ts
+hidden_test_command: cd apps/issueflow-frontend && npx vitest run --config vitest.eval-task003-hidden.config.ts
 scoring_weights:
   correctness: 0.30
   hidden_tests: 0.35

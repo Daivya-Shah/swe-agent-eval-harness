@@ -109,7 +109,7 @@ def build_grader_notes(
         if any("path issue" in m for m in failure_modes):
             return (
                 "Harness executed commands but environment blocked frontend test loading. "
-                "Use a clean repo path (e.g. C:\\dev\\swe-agent-eval-harness) and re-run."
+                "Use a clean repo path (e.g. C:\\dev\\agent-eval-harness) and re-run."
             )
         return "Solution failed one or more grading suites. See failure_modes and test excerpts."
 

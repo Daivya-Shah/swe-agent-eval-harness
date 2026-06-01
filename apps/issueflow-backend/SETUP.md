@@ -7,12 +7,12 @@
 
 ## Recommended repo path
 
-Clone or work from a simple path without special characters, e.g. `C:\dev\swe-agent-eval-harness`. Some Windows tooling (Vite/Vitest) can break when paths contain apostrophes.
+Clone or work from a simple path without special characters, e.g. `C:\dev\agent-eval-harness`. Some Windows tooling (Vite/Vitest) can break when paths contain apostrophes.
 
 ## Install (Windows PowerShell)
 
 ```powershell
-cd C:\dev\swe-agent-eval-harness
+cd C:\dev\agent-eval-harness
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
@@ -21,7 +21,7 @@ pip install -e ".[dev]"
 ## Install (macOS/Linux)
 
 ```bash
-cd swe-agent-eval-harness
+cd agent-eval-harness
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
@@ -37,7 +37,7 @@ uvicorn app.main:app --reload --app-dir apps/issueflow-backend
 If PowerShell has trouble with your path, map a drive letter:
 
 ```powershell
-subst Z: "C:\dev\swe-agent-eval-harness"
+subst Z: "C:\dev\agent-eval-harness"
 Z:
 .\.venv\Scripts\Activate.ps1
 uvicorn app.main:app --reload --app-dir apps/issueflow-backend

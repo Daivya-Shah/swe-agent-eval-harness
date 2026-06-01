@@ -81,7 +81,7 @@ If `visible.passed == true` and `hidden.passed == false`:
 
 ### Reading environment failures
 
-If failure modes mention **Vite/Vitest path issues**, the repo path may contain apostrophes (common on Windows). Work from `C:\dev\swe-agent-eval-harness` or use `subst` — documented in README.
+If failure modes mention **Vite/Vitest path issues**, the repo path may contain apostrophes (common on Windows). Work from `C:\dev\agent-eval-harness` or use `subst` — documented in README.
 
 ## Reviewer workflow
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import re
 import subprocess
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -33,6 +34,18 @@ VITEST_FILES = re.compile(
     r"Test Files\s+(?:(\d+) failed\s*\|\s*)?(\d+) passed(?:\s*\((\d+)\))?",
     re.IGNORECASE,
 )
+
+
+def normalize_test_command(command: str) -> str:
+    """Run pytest via the active interpreter (avoids broken pytest.exe launchers on Windows)."""
+    stripped = command.strip()
+    if re.match(r"^pytest(\s|$)", stripped):
+        return f"{sys.executable} -m {stripped}"
+    match = re.search(r"&&\s*pytest(\s)", command)
+    if match:
+        start = match.start()
+        return command[:start] + f"&& {sys.executable} -m pytest " + command[match.end() :]
+    return command
 
 
 def parse_test_output(stdout: str, stderr: str, command: str) -> ParsedTestCounts:
@@ -129,6 +142,8 @@ def run_test_command(
         env["PATH"] = str(venv_scripts) + os.pathsep + env.get("PATH", "")
     elif venv_bin.exists():
         env["PATH"] = str(venv_bin) + os.pathsep + env.get("PATH", "")
+
+    command = normalize_test_command(command)
 
     try:
         completed = subprocess.run(

@@ -23,8 +23,8 @@ From repo root (requires `apps/issueflow-frontend/node_modules`):
 
 ```powershell
 cd apps/issueflow-frontend
-npx vitest run --config vitest.eval-task003.config.ts ../../evals/tasks/task_003_frontend_stale_state/visible_tests
-npx vitest run --config vitest.eval-task003.config.ts ../../evals/tasks/task_003_frontend_stale_state/hidden_tests
+npx vitest run --config vitest.eval-task003-visible.config.ts
+npx vitest run --config vitest.eval-task003-hidden.config.ts
 ```
 
 **Note:** Main app tests remain under `apps/issueflow-backend/tests` and `apps/issueflow-frontend` — they are separate from eval task tests.

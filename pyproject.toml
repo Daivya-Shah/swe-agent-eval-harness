@@ -1,5 +1,5 @@
 [project]
-name = "swe-agent-eval-harness"
+name = "agent-eval-harness"
 version = "0.1.0"
 description = "Deterministic coding-agent evaluation harness with IssueFlow"
 readme = "README.md"

@@ -1,51 +1,66 @@
-# SWE-Agent Eval Harness
+# Agent Eval Harness
 
-A deterministic evaluation harness for coding-agent software engineering tasks, built around a full-stack issue-tracking app called **IssueFlow**.
+A deterministic coding-agent evaluation harness built around **IssueFlow**, a full-stack issue-tracking app used to test coding agents on realistic backend, frontend, and integration tasks.
 
-This is an **independent portfolio project** inspired by coding-agent evaluation work (task design, visible/hidden test splits, deterministic grading). It is **not affiliated with Mechanize** or any employer.
+Built as a **Mechanize-focused demo** to explore the full eval loop: task prompt, target codebase, visible tests, hidden-style tests, deterministic grading, and failure analysis. The goal is to show how coding agents can pass shallow tests while missing deeper software-engineering invariants.
 
-## Why this exists
+## What this demonstrates
 
-Coding agents are often graded on small, agent-visible test suites. That rewards patches that pass the happy path while missing lifecycle invariants, time boundaries, cache coherence, and idempotency. This repo demonstrates a complete eval loop: a realistic target app, scoped SWE tasks, a harness that grades patches deterministically, and sample failure analysis for review.
+- **Real target codebase:** FastAPI + SQLite backend and React + React Query frontend
+- **Four scoped eval tasks:** backend state transitions, SLA logic, React Query cache consistency, webhook normalization
+- **Visible vs hidden-style tests** to expose overfitting to happy-path checks
+- **Deterministic pytest/Vitest grading harness** with weighted scoring and structured failure tags
+- **Inspectable grading output:** per-task JSON/Markdown reports with scores, stdout/stderr excerpts, and failure-mode tags
+- **Simulated failure analysis** in `agent_attempts/` (weak vs strong patterns, not model logs)
 
-## What gets evaluated
+## Verified golden reference
 
-Four Mechanize-style tasks exercise backend domain logic, time-based rules, frontend cache behavior, and webhook integration hardening. Each task has:
+| Check | Result |
+|-------|--------|
+| Backend tests | **76** passing (`apps/issueflow-backend/tests`) |
+| Frontend unit tests | **6** passing (`apps/issueflow-frontend`, Vitest) |
+| Eval tasks | **4 / 4** passing (visible + hidden-style suites) |
+| Golden reference score | **1.00** average |
+| Reports | [`evals/results/aggregate_summary.json`](evals/results/aggregate_summary.json), [`.md`](evals/results/aggregate_summary.md) |
 
-- A natural-language prompt (`evals/tasks/<task>/prompt.md`)
-- **Visible tests** — smaller checks an agent might see or overfit
-- **Hidden-style tests** — deeper invariants, boundaries, and edge cases (included in-repo for this demo benchmark)
+Run timestamp in the checked-in report: `2026-05-31T22:53:24Z`. Reproduce with `python scripts/run_all_evals.py --output-dir=evals/results` after setup.
 
-The golden reference implementation passes all four tasks with **average score 1.00** (see `evals/results/aggregate_summary.json`).
+## Why this is relevant to coding-agent evals
+
+Hard SWE evaluations need more than a single pass/fail bit. They need a **target environment** (a real codebase), a **task prompt**, a **deterministic grader**, and enough structure to explain **why** a patch failed.
+
+Agents often **overfit visible tests**: they patch routes or one component so basic wiring passes, while lifecycle rules, time boundaries, cache coherence, or idempotency stay broken. This repo encodes that pattern on purpose. Each task ships a small **visible** suite and a deeper **hidden-style** suite. The harness runs both, applies weights from `task.yaml`, and writes inspectable reports. The grader does not rely on an LLM judge.
+
+Hidden-style tests are **included in this repository for transparency**. In a production eval system, those suites would usually be withheld from the agent. Here they document grader intent and make the benchmark reproducible for reviewers.
 
 ## Four eval tasks
 
-| Task | Focus |
-|------|--------|
-| `task_001_backend_state_transition` | Issue lifecycle, `resolved_at`, audit events, closed-issue guards |
-| `task_002_sla_feature` | Deterministic SLA windows, timezone-safe boundaries, API exposure |
-| `task_003_frontend_stale_state` | React Query cache coherence after mutations and filters |
-| `task_004_webhook_normalization` | Messy payload aliases, idempotency, ingest logging |
+| Task | Capability tested | Hidden-style checks (examples) |
+|------|-------------------|--------------------------------|
+| `task_001_backend_state_transition` | Lifecycle invariants and audit behavior | Blocked/reopen paths, `resolved_at` clearing, closed-issue PATCH guards, audit idempotency |
+| `task_002_sla_feature` | Deterministic SLA from priority and age | Exact overdue boundaries, 80% `at_risk` band, timezone normalization, terminal status short-circuit |
+| `task_003_frontend_stale_state` | React Query cache after mutations | List/detail alignment, filter views after status change, no full-page reload, rapid sequential updates |
+| `task_004_webhook_normalization` | Messy payloads and idempotency | Ambiguous priority rejection, assignee validation, flexible dates, ingest logging, no duplicate audit on retry |
 
-Each task: `prompt.md`, `visible_tests/`, `hidden_tests/`, `expected_failures.md`, `task.yaml`.
+Each task folder includes `prompt.md`, `task.yaml`, `visible_tests/`, `hidden_tests/`, and `expected_failures.md`.
 
 ## Three layers
 
 | Layer | Location | Role |
 |-------|----------|------|
-| **1. IssueFlow target codebase** | `apps/issueflow-backend/`, `apps/issueflow-frontend/` | Full-stack app agents modify |
-| **2. Coding-agent eval tasks** | `evals/tasks/` | Prompts, tests, expected failure notes |
-| **3. Grading harness + failure analysis** | `evals/harness/`, `agent_attempts/` | Deterministic scoring, reports, sample attempt notes |
+| **1. Target codebase** | `apps/issueflow-backend/`, `apps/issueflow-frontend/` | IssueFlow: the app an agent edits |
+| **2. Eval tasks** | `evals/tasks/` | Prompts, tests, grader config |
+| **3. Harness + analysis** | `evals/harness/`, `evals/results/`, `agent_attempts/` | Run tests, score, report, review failure patterns |
 
 ```mermaid
 flowchart TB
-  subgraph target [IssueFlow Target Codebase]
+  subgraph target [IssueFlow]
     BE[FastAPI Backend]
     FE[React Frontend]
     BE <-- REST /api --> FE
   end
 
-  subgraph evals [Eval Task Layer]
+  subgraph evals [Eval Tasks]
     P[prompt.md]
     V[visible_tests]
     H[hidden_tests]
@@ -53,101 +68,94 @@ flowchart TB
     P --> H
   end
 
-  subgraph harness [Deterministic Harness]
-    L[task.yaml loader]
-    R[subprocess test runner]
-    S[score.py]
-    REP[JSON + Markdown reports]
-    L --> R --> S --> REP
-  end
-
-  subgraph analysis [Failure Analysis]
-    AA[agent_attempts/ sample notes]
+  subgraph harness [Harness]
+    R[subprocess runner]
+    S[weighted score]
+    REP[JSON + Markdown]
+    R --> S --> REP
   end
 
   evals --> harness
   harness --> target
-  REP --> AA
+  REP --> AA[agent_attempts/]
 ```
 
-## Quickstart (Windows PowerShell)
+## How to run
 
-Use a path **without apostrophes** when possible (e.g. `C:\dev\swe-agent-eval-harness`). Some Vite/Vitest tooling fails on paths like `Repo's...`.
+**Path note (Windows):** Use a directory **without apostrophes**, for example `C:\dev\agent-eval-harness`. Some Vite/Vitest tooling fails when the repo path contains `'` characters.
+
+### Setup
+
+**Windows (PowerShell):**
 
 ```powershell
-# Clone or copy to a clean path, then:
-cd C:\dev\swe-agent-eval-harness
+cd C:\dev\agent-eval-harness
 .\scripts\setup.ps1
 .\.venv\Scripts\Activate.ps1
-
-# Backend (terminal 1)
-uvicorn app.main:app --reload --app-dir apps/issueflow-backend
-
-# Frontend (terminal 2)
-cd apps\issueflow-frontend
-npm run dev
 ```
 
-Open http://localhost:5173 (Vite proxies `/api` to the backend).
-
-If your path has special characters, map a drive letter:
-
-```powershell
-subst Z: "C:\path\to\swe-agent-eval-harness"
-Z:
-.\.venv\Scripts\Activate.ps1
-```
-
-## Quickstart (macOS / Linux)
+**macOS / Linux:**
 
 ```bash
-cd swe-agent-eval-harness
+cd agent-eval-harness
 ./scripts/setup.sh
 source .venv/bin/activate
-
-# Backend
-uvicorn app.main:app --reload --app-dir apps/issueflow-backend
-
-# Frontend (separate terminal)
-cd apps/issueflow-frontend && npm run dev
 ```
 
-## Run tests
+### Run the app
 
-### Backend (76 tests)
+**Backend (terminal 1):**
 
 ```powershell
-pytest apps/issueflow-backend/tests -q
+uvicorn app.main:app --reload --app-dir apps/issueflow-backend
 ```
 
-### Frontend
+**Frontend (terminal 2):**
 
 ```powershell
 cd apps/issueflow-frontend
-npm test          # Vitest unit tests
-npm run build     # Typecheck + production build
-npm run e2e       # Playwright (installs browser on first run)
+npm run dev
 ```
 
-## Run evals
+Open http://localhost:5173 (Vite proxies `/api` to the backend). API docs: http://127.0.0.1:8000/docs
 
-### One task
+### Run tests
+
+**Backend (76 tests):**
+
+```powershell
+python -m pytest apps/issueflow-backend/tests -q
+```
+
+**Frontend unit tests (6 tests) and build:**
+
+```powershell
+cd apps/issueflow-frontend
+npm test
+npm run build
+```
+
+Playwright e2e (`npm run e2e`) is available but **not part of the verified golden-reference baseline** documented above.
+
+### Run evals
+
+**One task:**
 
 ```powershell
 python -m evals.harness.run_task --task evals/tasks/task_001_backend_state_transition --output-dir=evals/results
 ```
 
-Replace the task folder for tasks 002–004.
+Replace the task folder for tasks 002 through 004.
 
-### All tasks
+**All tasks:**
 
 ```powershell
 python scripts/run_all_evals.py --output-dir=evals/results
 ```
 
-On PowerShell, use `--output-dir=evals/results` (equals form).
+On PowerShell, prefer `--output-dir=evals/results` (equals form).
 
-### Make targets (optional, macOS/Linux or Windows with make)
+**Optional (Make, Unix or Windows with make):**
 
 ```bash
 make test-backend
@@ -155,91 +163,44 @@ make eval TASK=task_001_backend_state_transition
 make eval-all
 ```
 
-## Golden reference output
+## Sample golden output
 
-The checked-in golden reference run (`evals/results/aggregate_summary.json`):
+From [`evals/results/aggregate_summary.json`](evals/results/aggregate_summary.json):
 
-```
-Tasks run:              4
-Average overall score:  1.00
-Failed tasks:           (none)
+| Metric | Value |
+|--------|-------|
+| Tasks run | 4 |
+| Average overall score | **1.00** |
+| Failed tasks | none |
+| Total runtime | ~19s |
 
-task_001_backend_state_transition   visible: pass  hidden: pass  score: 1.00
-task_002_sla_feature                visible: pass  hidden: pass  score: 1.00
-task_003_frontend_stale_state       visible: pass  hidden: pass  score: 1.00
-task_004_webhook_normalization      visible: pass  hidden: pass  score: 1.00
-```
+| Task | Score | Visible | Hidden |
+|------|-------|---------|--------|
+| `task_001_backend_state_transition` | 1.00 | pass | pass |
+| `task_002_sla_feature` | 1.00 | pass | pass |
+| `task_003_frontend_stale_state` | 1.00 | pass | pass |
+| `task_004_webhook_normalization` | 1.00 | pass | pass |
 
-See `evals/results/aggregate_summary.md` for the human-readable summary.
+## Failure analysis
 
-## Why visible tests are not enough
+To make grader output easier to reason about, [`agent_attempts/`](agent_attempts/) includes **simulated** weak-vs-strong attempt notes per task. These illustrate how visible-test overfitting shows up in practice (for example route-layer hacks that pass visible suites but fail hidden-style invariants). They are **not** logs from frontier model runs.
 
-Visible suites are intentionally small — they check that basic wiring works (a status transition, an SLA label, a mutation hook, a standard webhook payload). Agents can pass them by patching routes or one component while leaving blocked transitions, SLA boundaries, React Query list caches, or webhook idempotency broken. Hidden-style tests target those gaps so scores reflect engineering quality, not test memorization.
-
-## Why deterministic grading matters
-
-The harness runs fixed shell commands from `task.yaml`, parses pytest/Vitest pass/fail output, and applies explicit weights — no LLM judge in the loop. The same patch should produce the same score on repeat runs. That makes regressions, visible-only overfitting, and environment issues (e.g. path-related Vitest failures) inspectable in JSON/Markdown reports under `evals/results/`.
-
-## What makes this Mechanize-relevant
-
-This repo mirrors eval-engineering concerns common in agent benchmarking:
-
-- Scoped tasks with explicit target files and capability tags
-- Visible vs hidden-style test separation
-- Deterministic subprocess grading with weighted categories
-- Structured JSON/Markdown reports for inspection
-- Honest sample attempt analysis (not claimed as real model logs)
-
-It shows how to design tasks, grade patches, and explain failures — without pretending to be an official Mechanize product.
+See [`agent_attempts/README.md`](agent_attempts/README.md) and [`FAILURE_ANALYSIS.md`](FAILURE_ANALYSIS.md) for methodology.
 
 ## Limitations and future work
 
-- No automated CI workflow in this repo yet
-- No git worktree sandboxing for agent patches (manual apply today)
-- Hidden tests are in-repo for transparency; production evals would keep them private
-- Sample `agent_attempts/` notes are simulated, not real agent transcripts
-- Docker isolation not included (local venv + npm install)
-- Windows paths with apostrophes break some frontend test runners
-- Scoring uses test pass rates + heuristics; no linter/static-analysis score yet
-
-## Folder structure
-
-```
-apps/
-  issueflow-backend/     FastAPI + SQLAlchemy + SQLite
-  issueflow-frontend/    React + Vite + React Query
-evals/
-  tasks/                 Four eval tasks (prompt, tests, task.yaml)
-  harness/               Grading CLI and report writers
-  results/               Golden reference JSON/Markdown reports
-  conftest.py            Shared eval pytest fixtures
-agent_attempts/          Sample/simulated weak vs strong attempt analysis
-scripts/
-  setup.ps1 / setup.sh   One-time environment setup
-  run_all_evals.py       Run all tasks + aggregate summary
-docs (top-level):
-  ARCHITECTURE.md        System design
-  EVAL_DESIGN.md         Task and scoring design
-  FAILURE_ANALYSIS.md    How to read failure patterns
-```
-
-## Publishing to GitHub
-
-| Item | Recommendation |
-|------|----------------|
-| **Repo name** | `swe-agent-eval-harness` |
-| **Description** | Deterministic coding-agent eval harness with IssueFlow — 4 SWE tasks, visible/hidden-style tests, JSON grading reports |
-| **Topics** | `coding-agents`, `evaluation`, `fastapi`, `react`, `pytest`, `software-engineering`, `benchmark` |
-| **Commit** | Source, docs, `evals/results/*_golden_reference.*`, `agent_attempts/`, configs |
-| **Do not commit** | `.venv/`, `node_modules/`, `*.db`, `dist/`, `.pytest_cache/`, `test-results/`, `.env` |
-
-Initialize git from a clean path if your clone directory contains apostrophes. Run `.\scripts\setup.ps1` (or `./scripts/setup.sh`) before first push.
+- No automated agent runner yet (apply patch, then run harness manually or via a future script)
+- No git worktree sandboxing for isolated agent attempts
+- Hidden-style tests are in-repo for transparency; production evals would typically keep them private
+- No CI workflow in this repository yet
+- No Docker isolation (local venv + `npm install` today)
+- Scoring is test-pass-based with heuristics; no linter integration in the `code_quality` category yet
 
 ## Further reading
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) — backend, frontend, harness design
-- [EVAL_DESIGN.md](EVAL_DESIGN.md) — task breakdown and scoring
-- [FAILURE_ANALYSIS.md](FAILURE_ANALYSIS.md) — sample failure patterns
+- [ARCHITECTURE.md](ARCHITECTURE.md) — system design for app and harness
+- [EVAL_DESIGN.md](EVAL_DESIGN.md) — per-task design and scoring
+- [FAILURE_ANALYSIS.md](FAILURE_ANALYSIS.md) — reading failures and reports
 - [agent_attempts/README.md](agent_attempts/README.md) — simulated attempt notes
 - [apps/issueflow-backend/SETUP.md](apps/issueflow-backend/SETUP.md) — backend details
 - [apps/issueflow-frontend/SETUP.md](apps/issueflow-frontend/SETUP.md) — frontend details

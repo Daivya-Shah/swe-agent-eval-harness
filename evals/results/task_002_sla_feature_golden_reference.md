@@ -3,7 +3,7 @@
 - **Task ID:** `task_002_sla_feature`
 - **Difficulty:** medium
 - **Run type:** `golden_reference`
-- **Run timestamp:** 2026-05-31T21:08:48.813075+00:00
+- **Run timestamp:** 2026-05-31T22:53:13.656705+00:00
 - **Overall score:** **1.00**
 
 ## Scoring breakdown (weighted contributions)
@@ -21,24 +21,24 @@
 
 ### Visible — PASS (3/3 tests)
 
-- **Command:** `pytest evals/tasks/task_002_sla_feature/visible_tests -q -c evals/pytest.ini --rootdir=evals`
+- **Command:** `C:\Users\Daivy\Downloads\Projects\agent-eval-harness\.venv\Scripts\python.exe -m pytest evals/tasks/task_002_sla_feature/visible_tests -q -c evals/pytest.ini --rootdir=evals`
 - **Suite score:** 1.00
 - **Timed out:** False
 
 **Stdout excerpt**
 ```
-3 passed, 1 warning in 0.11s
+3 passed, 1 warning in 0.09s
 ```
 
 ### Hidden-style — PASS (7/7 tests)
 
-- **Command:** `pytest evals/tasks/task_002_sla_feature/hidden_tests -q -c evals/pytest.ini --rootdir=evals`
+- **Command:** `C:\Users\Daivy\Downloads\Projects\agent-eval-harness\.venv\Scripts\python.exe -m pytest evals/tasks/task_002_sla_feature/hidden_tests -q -c evals/pytest.ini --rootdir=evals`
 - **Suite score:** 1.00
 - **Timed out:** False
 
 **Stdout excerpt**
 ```
-7 passed, 1 warning in 0.10s
+7 passed, 1 warning in 0.08s
 ```
 
 ## Grader notes

@@ -1,17 +1,17 @@
-# IssueFlow / SWE-Agent Eval Harness — Windows setup
+# IssueFlow / Agent Eval Harness — Windows setup
 # Run from repo root: .\scripts\setup.ps1
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $RepoRoot
 
-Write-Host "SWE-Agent Eval Harness setup" -ForegroundColor Cyan
+Write-Host "Agent Eval Harness setup" -ForegroundColor Cyan
 Write-Host "Repo root: $RepoRoot"
 
 if ($RepoRoot -match "'") {
     Write-Host ""
     Write-Host "WARNING: This path contains an apostrophe." -ForegroundColor Yellow
-    Write-Host "Vitest/Vite eval tasks may fail here. Prefer C:\dev\swe-agent-eval-harness" -ForegroundColor Yellow
+    Write-Host "Vitest/Vite eval tasks may fail here. Prefer C:\dev\agent-eval-harness" -ForegroundColor Yellow
     Write-Host "  subst Z: `"$RepoRoot`"" -ForegroundColor Yellow
     Write-Host ""
 }
