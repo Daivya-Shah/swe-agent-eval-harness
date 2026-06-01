@@ -1,8 +1,8 @@
 # Agent Eval Harness
 
-A deterministic coding-agent evaluation harness built around **IssueFlow**, a full-stack issue-tracking app used to test coding agents on realistic backend, frontend, and integration tasks.
+This is a small eval harness for coding agents, built around **IssueFlow**, a full-stack issue tracker (FastAPI + SQLite, React on the front) that acts as the real codebase agents edit. The tasks are scoped to normal backend, frontend, and integration work, not one-off puzzle files.
 
-Built as a **Mechanize-focused demo** to explore the full eval loop: task prompt, target codebase, visible tests, hidden-style tests, deterministic grading, and failure analysis. The goal is to show how coding agents can pass shallow tests while missing deeper software-engineering invariants.
+I put it together as a **Mechanize-focused demo** to walk through the full loop: task prompt, target codebase, visible tests, hidden-style tests, deterministic grading, and failure analysis. The part I care about most is the gap agents often hit: they pass the shallow, visible tests and still miss deeper invariants (state machines, time boundaries, cache consistency, idempotency, that kind of thing).
 
 ## What this demonstrates
 
