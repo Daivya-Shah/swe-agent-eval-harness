@@ -93,7 +93,7 @@ flowchart TB
 **Windows (PowerShell):**
 
 ```powershell
-cd C:\dev\agent-eval-harness
+cd C:\dev\agent-eval-harness (Put your path here)
 .\scripts\setup.ps1
 .\.venv\Scripts\Activate.ps1
 ```
