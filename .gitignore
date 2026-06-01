@@ -25,6 +25,10 @@ evals/tasks/**/.vite/
 apps/issueflow-frontend/test-results/
 apps/issueflow-frontend/playwright-report/
 apps/issueflow-frontend/blob-report/
+.vite/
+
+# Editor scratch (not harness output)
+evals/results/Untitled
 
 # SQLite databases (local dev)
 *.db
