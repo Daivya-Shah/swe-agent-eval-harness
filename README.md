@@ -1,4 +1,4 @@
-# Agent Eval Harness (Mechanize)
+# Agent Eval Harness
 
 Built as a demo project for [Mechanize](https://www.mechanize.work/) because I really love what y’all are building!
 
