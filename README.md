@@ -2,6 +2,8 @@
 
 Built as a demo project for [Mechanize](https://www.mechanize.work/) because I really love what y’all are building!
 
+Video walkthrough - https://drive.google.com/file/d/1-F0wYpD4FWDL8EN0cr9qWbgJJ2FHz13i/view?usp=sharing
+
 I wanted to make something that gets close to the kind of work your team seems to care about. Not just building another AI app, but designing a real software environment where coding agents can be tested, graded, and understood.
 
 This project is a small eval harness built around **IssueFlow**, a full-stack issue tracker with a FastAPI + SQLite backend and a React frontend. IssueFlow acts as the real codebase an agent would edit. The tasks are normal software engineering tasks: backend state transitions, SLA logic, frontend cache behavior, and webhook normalization. They are meant to feel like real engineering problems instead of isolated puzzle files.
